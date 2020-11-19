@@ -67,10 +67,12 @@ app.get("/info/:id", (req, res) => {
 app.post("/url", async (req, res) => {
   let { url } = req.body;
 
+  /*
   if (!validURL(url)) {
     res.status(400).json({ error: `${url} is not a valid url` });
     return;
   }
+  */
 
   let chiave = uuid().split("-")[0];
 

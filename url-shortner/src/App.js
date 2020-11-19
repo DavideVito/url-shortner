@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import "./App.css";
 
@@ -72,6 +73,19 @@ function App() {
       {ogg ? (
         <div>
           <a href={ogg.chiave}> {window.location.href + ogg.chiave}</a>
+
+          <CopyToClipboard
+            text={window.location.href + ogg.chiave}
+            onCopy={() => {
+              console.log("Copiato");
+            }}
+          >
+            <div className="control">
+              <button className="button is-link">
+                Copy <i>{window.location.href + ogg.chiave}</i> clipboard
+              </button>
+            </div>
+          </CopyToClipboard>
         </div>
       ) : (
         <></>
