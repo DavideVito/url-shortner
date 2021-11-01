@@ -5,6 +5,7 @@ const uuid = require("uuid").v4;
 const admin = require("firebase-admin");
 const NodeCache = require("node-cache");
 const myCache = new NodeCache({ stdTTL: 0, checkperiod: 0 });
+const requestIp = require("request-ip");
 
 const mysql = require("mysql");
 
@@ -71,6 +72,7 @@ app.post("/url", async (req, res) => {
   }
 });
 
+app.use(requestIp.mw());
 app.get("/:id", async (req, res) => {
   let id = req.params.id;
 
@@ -78,8 +80,9 @@ app.get("/:id", async (req, res) => {
     res.json({ error: "No Id" });
   }
   const cUrl = myCache.get(id);
-
+  const ip = req.clientIp || "Non Trovato";
   if (cUrl) {
+    insertNewHit(id, ip);
     return res.redirect(cUrl);
   }
   const query = "SELECT url from URL where id = ?";
@@ -98,6 +101,8 @@ app.get("/:id", async (req, res) => {
 
     const url = ris[0].url;
 
+    insertNewHit(id, ip);
+
     myCache.set(id, url, 600);
 
     return res.redirect(url);
@@ -105,6 +110,16 @@ app.get("/:id", async (req, res) => {
     // res.redirect(res[0].url);
   });
 });
+
+const insertNewHit = (id, ip) => {
+  const insertQuery = "INSERT INTO `URL_Hits`(`id`, `ip`) VALUES (?, ?)";
+
+  const params = [id, ip];
+  const safeInsertQuery = connection.format(insertQuery, params);
+  console.log(safeInsertQuery);
+
+  connection.query(safeInsertQuery);
+};
 
 const port = process.env.PORT || 3000;
 
