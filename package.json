@@ -15,7 +15,9 @@
     "crypto-js": "^4.0.0",
     "express": "^4.17.1",
     "firebase-admin": "^9.3.0",
+    "node-cache": "^5.1.2",
     "nodemon": "^2.0.6",
+    "promise-mysql": "^5.0.4",
     "uuid": "^8.3.1",
     "valid-url": "^1.0.9"
   }

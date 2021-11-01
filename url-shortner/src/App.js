@@ -47,6 +47,8 @@ function App() {
     cambiaInfo(json);
   };
 
+  const [copied, setCopied] = useState(false);
+
   return (
     <div className="App" style={{ marginTop: "25px" }}>
       <section className="hero">
@@ -78,11 +80,13 @@ function App() {
             text={window.location.href + ogg.chiave}
             onCopy={() => {
               console.log("Copiato");
+              setCopied(true);
             }}
           >
             <div className="control">
               <button className="button is-link">
-                Copy <i>{window.location.href + ogg.chiave}</i> clipboard
+                {copied ? "Copied" : "Copy"}
+                <i>{window.location.href + ogg.chiave}</i> clipboard
               </button>
             </div>
           </CopyToClipboard>
