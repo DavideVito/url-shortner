@@ -9,12 +9,16 @@ const requestIp = require("request-ip");
 
 const mysql = require("mysql");
 
+const helmet = require("helmet");
+
 const connection = mysql.createConnection({
   host: "192.168.1.130",
   user: "Admin",
   password: "Password",
   database: "URL",
 });
+
+app.use(helmet());
 
 app.use(express.json());
 
